@@ -4,6 +4,11 @@ function AuthController($window, $location, Auth, User) {
   // this.password = "";
   // this.user = {};
   // the above are not currently used, commented out for JSHint to pass.
+  this.validation = {};
+  this.validation.success = true;
+  console.log('this.validation.success', this.validation.success);
+
+  var self = this;
 
   this.login = function(user, pass) {
     Auth.signin({
@@ -13,8 +18,9 @@ function AuthController($window, $location, Auth, User) {
       $window.localStorage.setItem('com.archivr', response.token);
       User.setUser(response.user);
       $location.path('/users/' + response.user.username + '/screenshots');
-    }).catch(function (error) {
-      console.log(error);
+    }).catch(function(error) {
+      console.log('error', error);
+      self.validation.success = false;
     });
   };
 
@@ -27,7 +33,8 @@ function AuthController($window, $location, Auth, User) {
       // $window.localStorage.setItem('com.archivr', token);
       $location.path('/login');
     }).catch(function(error) {
-      console.error(error);
+      console.log('error', error);
+      self.validation.success = false;
     });
   };
 
