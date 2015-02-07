@@ -4,26 +4,17 @@
  * Handles display of a single screenshot.
  */
 
-function ScreenshotController(Screenshot, User, screenshot, $window, $document) {
-  this.screenshot = screenshot;
-  // console.log(this.screenshot.el)
-  this.saveScreenShot = function(data, canvas){
-    console.log('Data from directive:', data);
-    // console.log(el)
-    console.log('running saveScreenshot');
-    // var canvas = $document;
-     // here is the most important part because if you dont replace you will get a DOM 18 exception.
-    var image = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream'); 
-    
-
-    // it will save locally
-    console.log('should be saved');
-    // $window.location.href=image;
-    console.log('should be in local storage');
+function ScreenshotController(Screenshot, User, screenshot, $window, $document, $stateParams) {
+  // this.screenshot = screenshot;
+  console.log($stateParams);
+  this.saveScreenShot = function(canvasImage){
+    Screenshot.addDrawing(canvasImage, $stateParams.screenshotId);
+    // console.log("SCREENSHOT", screenshot)
+    // console.log("ANNOTATED", screenshot.annotatedImage)
   };
 
 }
-ScreenshotController.$inject = ['Screenshot', 'User', 'screenshot','$window','$document'];
+ScreenshotController.$inject = ['Screenshot', 'User', 'screenshot','$window','$document', '$stateParams'];
 
 angular.module('Archivr.screenshot', [
   'Archivr.services.Screenshot',
